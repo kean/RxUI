@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// TODO: setup local package correctly
 final class LoginViewController: UIViewController, RxView {
     private let titleLabel = UILabel()
     private let emailTextField = UITextField()
