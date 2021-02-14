@@ -17,7 +17,7 @@ final class LoginViewController: UIViewController, RxView {
     private let loginButton = UIButton(type: .system)
     private let spinner = UIActivityIndicatorView()
 
-    private let viewModel = LoginViewModel()
+    private let model = LoginViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,19 +25,19 @@ final class LoginViewController: UIViewController, RxView {
         createView()
 
         disposeBag.insert(
-            emailTextField.rx.text.bind(to: viewModel.$email),
-            passwordTextField.rx.text.bind(to: viewModel.$password),
-            loginButton.rx.tap.subscribe(onNext: viewModel.login)
+            emailTextField.rx.text.bind(to: model.$email),
+            passwordTextField.rx.text.bind(to: model.$password),
+            loginButton.rx.tap.subscribe(onNext: model.login)
         )
 
-        bind(viewModel) // Automatically registers for update
+        bind(model) // Automatically registers for update
     }
 
     /// `refreshView` gets called automatically whenever viewModel sends `objectWillChange` event
     func refreshView() {
-        titleLabel.text = viewModel.loginButtonTitle
-        viewModel.isLoading ? spinner.startAnimating() : spinner.stopAnimating()
-        loginButton.isEnabled = !viewModel.isLoginButtonEnabled
+        titleLabel.text = model.loginButtonTitle
+        model.isLoading ? spinner.startAnimating() : spinner.stopAnimating()
+        loginButton.isEnabled = model.isLoginButtonEnabled
     }
 
     private func createView() {
@@ -72,7 +72,7 @@ final class LoginViewModel: RxObservableObject {
     }
 
     var isInputValid: Bool {
-        (email ?? "").isEmpty && (password ?? "").isEmpty
+        !(email ?? "").isEmpty && !(password ?? "").isEmpty
     }
 
     func login() {
