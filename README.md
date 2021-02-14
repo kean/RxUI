@@ -1,4 +1,4 @@
-# RxAutoBinding
+# RxUI
 
 Proof of concept auto-binding for RxSwift. RxAutoBinding is inspired by SwiftUI and significantly reduces boilerplate typically associated with RxSwift.
 
