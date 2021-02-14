@@ -50,45 +50,22 @@ private var disposeBagAssociatedKey = "RxObservableObject.disposeBag.AssociatedK
 
 // MARK: - RxPublished
 
-/// A Driver, but you can also read the current value.
 @propertyWrapper
 public struct RxPublished<Value>: RxPublishedProtocol {
-    private let relay: Relay
-    var publishedWillChange: Observable<Void> { relay.relay.map { _ in () } }
+    private let relay: BehaviorRelay<Value>
+    var publishedWillChange: Observable<Void> { relay.map { _ in () } }
 
     public init(wrappedValue: Value) {
         relay = .init(value: wrappedValue)
     }
 
     public var wrappedValue: Value {
-        set { relay.value = newValue }
+        set { relay.accept(newValue) }
         get { relay.value }
     }
 
-    public var projectedValue: Relay { relay }
-
-    // An actual implementation. This is required to prevent simultaneous access
-    // to `wrappedValue`.
-    public final class Relay {
-        let relay: BehaviorRelay<Value>
-
-        public var value: Value {
-            didSet {
-                relay.accept(value)
-            }
-        }
-        public var driver: Driver<Value> { relay.asDriver() }
-
-        init(value: Value) {
-            self.relay = .init(value: value)
-            self.value = value
-        }
-    }
-}
-
-public extension ControlProperty {
-    func bind(to relay: RxPublished<Element>.Relay) -> Disposable {
-        subscribe(onNext: { relay.value = $0 })
+    public var projectedValue: BehaviorRelay<Value> {
+        relay
     }
 }
 
