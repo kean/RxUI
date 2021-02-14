@@ -48,14 +48,12 @@ Each `RxObservableObject` has `objectWillChange` relay. The relay is generated a
 
 ```swift
 final class LoginViewController: UIViewController, RxView {
-    // ... views ...
-
     private let model = LoginViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        createView()
+        // ... add views on screen ...
 
         disposeBag.insert(
             emailTextField.rx.text.bind(to: model.$email),
@@ -72,10 +70,6 @@ final class LoginViewController: UIViewController, RxView {
         titleLabel.text = model.loginButtonTitle
         model.isLoading ? spinner.startAnimating() : spinner.stopAnimating()
         loginButton.isEnabled = model.isLoginButtonEnabled
-    }
-
-    private func createView() {
-        // ... add views on screen ...
     }
 }
 ```
