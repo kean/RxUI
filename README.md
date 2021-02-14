@@ -4,7 +4,7 @@ RxUI is inspired by SwiftUI. RxUI goal is to improve the developer experience of
 
 - You can express your business logic in a natural way using plain Swift properties and methods
 - It makes it much easier to debug your views and view models. You can set breakpoints and query any of your view model state.
-- It’s beginner friendly. You don’t need to learn `combineLatest`, `withLatestFrom` and other complex stateful operators to use it.
+- It’s beginner-friendly. You don’t need to learn `combineLatest`, `withLatestFrom` and other complex stateful operators to use it. You don't need `flatMap` to send a network request.
 - It is more efficient because you avoid creating massive observable chains
 
 > **WARNING** This is proof of concept.
