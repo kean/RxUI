@@ -66,7 +66,7 @@ final class LoginViewController: UIViewController, RxView {
     func refreshView() {
         titleLabel.text = model.loginButtonTitle
         model.isLoading ? spinner.startAnimating() : spinner.stopAnimating()
-        loginButton.isEnabled = !model.isLoginButtonEnabled
+        loginButton.isEnabled = model.isLoginButtonEnabled
     }
 
     private func createView() {
