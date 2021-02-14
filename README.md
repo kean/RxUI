@@ -45,7 +45,7 @@ Each `RxObservableObject` has `objectWillChange` relay. The relay is generated a
 final class LoginViewController: UIViewController, RxView {
     // ... views ...
 
-    private let viewModel = LoginViewModel()
+    private let model = LoginViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,20 +53,20 @@ final class LoginViewController: UIViewController, RxView {
         createView()
 
         disposeBag.insert(
-            emailTextField.rx.text.bind(to: viewModel.$email),
-            passwordTextField.rx.text.bind(to: viewModel.$password),
-            loginButton.rx.tap.subscribe(onNext: viewModel.login)
+            emailTextField.rx.text.bind(to: model.$email),
+            passwordTextField.rx.text.bind(to: model.$password),
+            loginButton.rx.tap.subscribe(onNext: model.login)
         )
 
-        bind(viewModel) // Automatically registers for update
+        bind(model) // Automatically registers for update
     }
 
-    // Called automatically when viewModel changes, but no more frequently than
+    // Called automatically when model changes, but no more frequently than
     // once per render cycle.
     func refreshView() {
-        titleLabel.text = viewModel.loginButtonTitle
-        viewModel.isLoading ? spinner.startAnimating() : spinner.stopAnimating()
-        loginButton.isEnabled = !viewModel.isLoginButtonEnabled
+        titleLabel.text = model.loginButtonTitle
+        model.isLoading ? spinner.startAnimating() : spinner.stopAnimating()
+        loginButton.isEnabled = !model.isLoginButtonEnabled
     }
 
     private func createView() {
