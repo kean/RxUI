@@ -10,20 +10,20 @@ You can think of `RxObservableObject` and `RxPublished` as analogs of SwiftUI `O
 
 ```swift
 final class LoginViewModel: RxObservableObject {
-    @RxPublished var email: String?
-    @RxPublished var password: String?
+    @RxPublished var email = ""
+    @RxPublished var password = ""
     @RxPublished private(set) var isLoading = false
 
     var loginButtonTitle: String {
-        "Welcome, \(email ?? "–")"
+        "Welcome, \(email)"
     }
 
     var isLoginButtonEnabled: Bool {
         isInputValid && !isLoading
     }
 
-    var isInputValid: Bool {
-        (email ?? "").isEmpty && (password ?? "").isEmpty
+    private var isInputValid: Bool {
+        !email.isEmpty && !password.isEmpty
     }
 
     func login() {
