@@ -97,7 +97,7 @@ public extension RxView where Self: UIViewController {
 public extension RxView where Self: UIView {
     /// Observes `objectWillChange` and automatically called refresh.
     func bind(_ object: RxObservableObject) {
-        _bind(object, self, self)
+        _bind(object, self, hookIntoRenderSystem(container: self))
     }
 }
 
