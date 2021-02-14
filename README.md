@@ -1,6 +1,6 @@
 # RxUI
 
-RxUI is inspired by SwiftUI. RxUI goal is to improve the developer experience of using RxSwift by allowing you to concentrate on your business logic instead of low-level reactive code.
+RxUI is inspired by SwiftUI. RxUI goal is to improve the developer experience of using RxSwift by allowing you to concentrate on the business logic instead of the low-level reactive code.
 
 - You can express your business logic in a natural way using plain Swift properties and methods
 - It makes it much easier to debug your views and view models. You can set breakpoints and query any of your view model state.
