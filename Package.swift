@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Pulse",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v11)
     ],
     products: [
         .library(name: "RxAutoBinding", targets: ["RxAutoBinding"])
@@ -13,6 +13,13 @@ let package = Package(
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.0.0")
     ],
     targets: [
-        .target(name: "RxAutoBinding", dependencies: ["RxSwift", "RxCocoa"], sources: "Sources")
+        .target(
+            name: "RxAutoBinding",
+            dependencies: [
+                .product(name: "RxSwift", package: "RxSwift"),
+                .product(name: "RxCocoa", package: "RxSwift")
+            ],
+            path: "Sources"
+        )
     ]
 )
