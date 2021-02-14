@@ -64,9 +64,7 @@ public struct RxPublished<Value>: RxPublishedProtocol {
         get { relay.value }
     }
 
-    public var projectedValue: BehaviorRelay<Value> {
-        relay
-    }
+    public var projectedValue: BehaviorRelay<Value> { relay }
 }
 
 protocol RxPublishedProtocol {
@@ -81,51 +79,44 @@ public protocol RxView: AnyObject {
 }
 
 public extension RxView {
-    var disposeBag: DisposeBag {
-        getDisposeBag(for: self)
-    }
+    var disposeBag: DisposeBag { getDisposeBag(for: self) }
 }
 
 public extension RxView where Self: UIViewController {
     /// Observes `objectWillChange` and automatically called refresh.
     func bind(_ object: RxObservableObject) {
-        let fakeView = hookIntoRenderSystem(container: view)
-        _bind(object, self, fakeView)
+        bind(object, makeEmptyView(in: view))
     }
 }
 
 public extension RxView where Self: UIView {
     /// Observes `objectWillChange` and automatically called refresh.
     func bind(_ object: RxObservableObject) {
-        _bind(object, self, hookIntoRenderSystem(container: self))
+        bind(object, makeEmptyView(in: self))
     }
 }
 
-private func _bind(_ object: RxObservableObject, _ view: RxView, _ fakeView: UIView) {
-    let disposeBag = getDisposeBag(for: view)
+private extension RxView {
+    /// Observes `objectWillChange` and automatically called refresh.
+    func bind(_ object: RxObservableObject, _ emptyView: UIView) {
+        refreshView()
 
-    view.refreshView()
-    object.objectWillChange
-        .subscribe(onNext: { [weak fakeView] in fakeView?.setNeedsLayout() })
-        .disposed(by: disposeBag)
+        object.objectWillChange
+            .subscribe(onNext: emptyView.setNeedsLayout)
+            .disposed(by: disposeBag)
 
-    fakeView.rx.sentMessage(#selector(UIView.layoutSubviews))
-        .subscribe(onNext: { [weak view] _ in view?.refreshView() })
-        .disposed(by: disposeBag)
+        emptyView.rx.sentMessage(#selector(UIView.layoutSubviews))
+            .subscribe(onNext: { [weak self] _ in self?.refreshView() })
+            .disposed(by: disposeBag)
+    }
 }
 
 // The idea is to refresh the view with the new data only when the screen needs
 // to be re-rendered. We use a fake view to avoid re-rendering actualy stuff that
 // doesn't need re-layout.
-private func hookIntoRenderSystem(container: UIView) -> UIView {
-    if let fakeView = objc_getAssociatedObject(container, &fakeViewAssociatedKey) as? UIView {
-        return fakeView
-    }
-    let fakeView = UIView()
-    fakeView.isHidden = true
-    container.addSubview(fakeView)
-    objc_setAssociatedObject(container, &fakeViewAssociatedKey, fakeView, .OBJC_ASSOCIATION_RETAIN)
-    return fakeView
+private func makeEmptyView(in container: UIView) -> UIView {
+    let emptyView = UIView()
+    emptyView.isHidden = true
+    container.addSubview(emptyView)
+    return emptyView
 }
-
-private var fakeViewAssociatedKey = "RxView.fakeViewAssociatedKey.AssociatedKey"

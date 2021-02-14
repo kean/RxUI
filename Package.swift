@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Pulse",
+    name: "RxUI",
     platforms: [
         .iOS(.v11)
     ],
