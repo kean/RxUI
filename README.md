@@ -4,6 +4,8 @@ Proof of concept auto-binding for RxSwift. RxAutoBinding is inspired by SwiftUI 
 
 One of the major advantages of RxSwift is that it allows you to declare your business logic in a natural way using Swift method or properties. This means that it's easier to write, read, debug, *and* it's more efficient.
 
+> **WARNING** This is proof of concept.
+
 ## RxObservableObject
 
 You can think of `RxObservableObject` and `RxPublished` as analogs of SwiftUI `ObservableObject` and `Published`.
