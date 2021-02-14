@@ -1,6 +1,6 @@
 # RxUI
 
-Proof of concept auto-binding for RxSwift. RxAutoBinding is inspired by SwiftUI and significantly reduces boilerplate typically associated with RxSwift.
+Proof of concept auto-binding for RxSwift. RxUI is inspired by SwiftUI and significantly reduces boilerplate typically associated with RxSwift.
 
 One of the major advantages of RxSwift is that it allows you to declare your business logic in a natural way using Swift method or properties. This means that it's easier to write, read, debug, *and* it's more efficient.
 
@@ -81,5 +81,4 @@ When you call `bind()` method that accepts `RxObservableObject` it automatically
 
 # License
 
-RxAutoBinding is available under the MIT license. See the LICENSE file for more info.
-
+RxUI is available under the MIT license. See the LICENSE file for more info.
