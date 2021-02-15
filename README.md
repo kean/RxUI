@@ -19,7 +19,7 @@ final class LoginViewModel: RxObservableObject {
     @RxPublished var password = ""
     @RxPublished private(set) var isLoading = false
 
-    var loginButtonTitle: String {
+    var title: String {
         "Welcome, \(email)"
     }
 
@@ -67,7 +67,7 @@ final class LoginViewController: UIViewController, RxView {
     // Called automatically when model changes, but no more frequently than
     // once per render cycle.
     func refreshView() {
-        titleLabel.text = model.loginButtonTitle
+        titleLabel.text = model.title
         model.isLoading ? spinner.startAnimating() : spinner.stopAnimating()
         loginButton.isEnabled = model.isLoginButtonEnabled
     }
